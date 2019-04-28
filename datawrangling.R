@@ -1,10 +1,11 @@
 #Code by Frank Webb
+
 #removes the '$' from price strings so it can be cast as numeric
 noCash <- function(x) {
   as.numeric(gsub("\\$", "", x))
 }
 
-#function for rough conversion of SI memory notation to bits
+#function for rough conversion of SI memory notation to bytes
 toByteValue <- function(x){
   magnitude <- substr(paste(rev(strsplit(x, NULL)[[1]]),collapse = ""), 1, 1)
   value <- substr(x, 1, nchar(x)- 1)
@@ -20,7 +21,7 @@ toByteValue <- function(x){
   else -1
 }
 
-##loading CSVs from downloaded from Kaggle
+#loading CSVs downloaded from Kaggle
 library(readr)
 apple <- (read_csv("AppleStore.csv"))
 google <- (read_csv("googleplaystore.csv"))
