@@ -1,11 +1,10 @@
 #Code by Frank Webb
-
 #removes the '$' from price strings so it can be cast as numeric
 noCash <- function(x) {
   as.numeric(gsub("\\$", "", x))
 }
 
-#function for rough conversion of SI memory notation to bytes
+#function for rough conversion of SI memory notation to bits
 toByteValue <- function(x){
   magnitude <- substr(paste(rev(strsplit(x, NULL)[[1]]),collapse = ""), 1, 1)
   value <- substr(x, 1, nchar(x)- 1)
@@ -21,7 +20,7 @@ toByteValue <- function(x){
   else -1
 }
 
-#loading CSVs downloaded from Kaggle
+##loading CSVs from downloaded from Kaggle
 library(readr)
 apple <- (read_csv("AppleStore.csv"))
 google <- (read_csv("googleplaystore.csv"))
@@ -62,6 +61,16 @@ appl <- apple[match.apple, ]
 goog <- goog[order(goog$App),]
 appl <- appl[order(appl$track_name),]
 apps <- cbind(goog, appl[,c(1:2, 4:17)])
+
+paid.index <- which(apple$price > 0)
+free.index <- which(apple$price == 0)
+
+#adds a column for type of app
+type <- c()
+type[free.index] <- "Free"
+type[paid.index] <- "Paid"
+
+apple$type <- type
 
 
 #writes the tables to active directory
